@@ -57,6 +57,7 @@ Since detecting the ending of these sorts of string is difficult, the beautifier
   
 Future Work
 -----------
+- Release native executable for linux
 - Output as json
 
 Maintainer
