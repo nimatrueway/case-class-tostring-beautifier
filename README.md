@@ -54,6 +54,10 @@ Since detecting the ending of these sorts of string is difficult, the beautifier
      10
   )
   ```
+  
+Future Work
+-----------
+- Output as json
 
 Maintainer
 ----------
