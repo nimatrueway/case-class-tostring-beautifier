@@ -15,11 +15,15 @@ object Main {
       case Args(_, _, true) => Source.fromInputStream(System.in)
       case Args(_, Some(content), _) => Source.fromString(content)
       case Args(Some(file), _, _) => Source.fromFile(file)
+      case _ => throw new IllegalArgumentException("Unsupported mixture of cli arguments.")
     }
     Using.resource(source) { source =>
       val result = Parser.parse(source.mkString)
-      for (error <- result.errors) {
-        Console.err.println(error)
+      if (result.errors.nonEmpty) {
+        for (error <- result.errors) {
+          Console.err.println(error)
+        }
+        Console.err.println()
       }
       for (result <- result.result) {
         Console.println(Printer.toTree(result))
@@ -35,14 +39,17 @@ object ArgumentProcessor {
   def process(args: Array[String]): Args = {
     val builder = OParser.builder[Args]
     val argDefinitions = Seq(
+      builder.head("Parses an output of Scala 'CaseCase.toString()' and attempts to beautify and indent it like a typical json beautifier."),
       builder.opt[String]("file")
         .abbr("f")
         .text("file name to read its content or use '-' to read from stdin")
-        .action { case (path, args) => args.copy(file = Some(new File(path))) },
+        .action { case (path, args) => args.copy(file = Some(new File(path))) }
+      ,
       builder.opt[String]("string")
         .abbr("s")
         .text("read content directly from argument")
-        .action { case (c, args) => args.copy(content = Some(c)) },
+        .action { case (c, args) => args.copy(content = Some(c)) }
+      ,
       builder.opt[Unit]("stdin")
         .abbr("i")
         .optional()
@@ -54,7 +61,6 @@ object ArgumentProcessor {
         builder.programName("case-class-string-beautifier"),
         argDefinitions: _*
       )
-      .text("Parses an output of Scala 'CaseCase.toString()' and attempts to beautify and indent it like a typical json beautifier.")
     OParser.parse(parser, args, Args()) match {
       case Some(args) if onlyOneOf(args.file.isDefined, args.content.isDefined, args.isInputStream) =>
         args

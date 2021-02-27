@@ -3,13 +3,13 @@ package io.github.nimatrueway.caseclass
 import scala.collection.immutable.Queue
 
 trait INode {
-  var parent: INode
   val value: String
-  var children: Seq[INode]
   val isLeaf: Boolean
+  var parent: INode
+  var children: Seq[INode]
 }
 
-case class Node private(val value: String, var children: Seq[INode] = Queue(), val isLeaf: Boolean = true, var parent: INode) extends INode {
+case class Node private(value: String, var children: Seq[INode] = Queue(), isLeaf: Boolean = true, var parent: INode) extends INode {
   override def toString: String =
     if (isLeaf) value else s"$value(${children.mkString(",")})"
 }

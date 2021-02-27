@@ -1,6 +1,5 @@
 package io.github.nimatrueway.caseclass
 
-import scala.collection.mutable
 import scala.util.control.Breaks.{break, breakable}
 import scala.util.matching.Regex
 
@@ -96,14 +95,14 @@ object Parser {
     }
   }
 
-  object Fn {
-    def unapply(input: String): Option[(String)] =
-      if (input.endsWith("(")) Some(input.init) else None
-  }
-
   case class ParseResult(
                           result: Option[INode],
                           errors: Seq[String]
                         )
+
+  object Fn {
+    def unapply(input: String): Option[(String)] =
+      if (input.endsWith("(")) Some(input.init) else None
+  }
 
 }
