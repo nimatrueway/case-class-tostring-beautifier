@@ -42,11 +42,14 @@ object ArgumentProcessor {
       builder.head("Parses an output of Scala 'CaseCase.toString()' and attempts to beautify and indent it like a typical json beautifier."),
       builder.opt[String]("file")
         .abbr("f")
+        .valueName("<filepath>")
         .text("file name to read its content or use '-' to read from stdin")
+        .validate { path => if (new File(path).exists()) Right(()) else Left(s"Could not find the file '$path'") }
         .action { case (path, args) => args.copy(file = Some(new File(path))) }
       ,
       builder.opt[String]("string")
         .abbr("s")
+        .valueName("<content>")
         .text("read content directly from argument")
         .action { case (c, args) => args.copy(content = Some(c)) }
       ,
