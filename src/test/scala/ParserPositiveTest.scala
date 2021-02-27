@@ -1,10 +1,10 @@
 
-import org.junit.jupiter.api.{Disabled, DisplayName, Test}
+import io.github.nimatrueway.caseclass.Parser
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.{CsvFileSource, ValueSource}
+import org.junit.jupiter.params.provider.ValueSource
 
-class ParserPositiveTest:
+class ParserPositiveTest {
 
   @ParameterizedTest
   @ValueSource(strings = Array(
@@ -23,9 +23,12 @@ class ParserPositiveTest:
     "(AAA,BBB)",
     "AAA(,BBB(),CCC(DDD),(),,EEE(FFF(GGG),HHH))",
   ))
-  def simpleString(text: String): Unit =
+  def simpleString(text: String): Unit = {
     val result = Parser.parse(text)
     assertEquals(
       text,
       result.toString
     )
+  }
+
+}

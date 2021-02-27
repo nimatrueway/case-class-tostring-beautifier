@@ -1,5 +1,7 @@
-object Printer:
-  
+package io.github.nimatrueway.caseclass
+
+object Printer {
+
   def toTree(node: INode, indent: String = ""): String = {
     val args =
       if (node.isLeaf)
@@ -12,6 +14,8 @@ object Printer:
         s"""(
            |${node.children.map(n => Printer.toTree(n, indent + "  ")).mkString(",\n")}
            |$indent)""".stripMargin
-           
+
     indent + node.value + args
   }
+
+}

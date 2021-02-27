@@ -1,3 +1,5 @@
+package io.github.nimatrueway.caseclass
+
 import scala.collection.immutable.Queue
 
 trait INode {
